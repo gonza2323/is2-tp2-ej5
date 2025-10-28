@@ -107,25 +107,6 @@ public abstract class BaseService<
     }
 
 
-    // sobreescribir si los mapeos son más complejos
-
-    protected E toEntity(CreateDto dto) {
-        return mapper.toEntity(dto);
-    }
-
-    protected void updateEntity(UpdateDto dto, E entity) {
-        mapper.updateEntity(dto, entity);
-    }
-
-    protected DetailDto toDetailDto(E entity) {
-        return mapper.toDto(entity);
-    }
-
-    protected SummaryDto toSummaryDto(E entity) {
-        return mapper.toSummaryDto(entity);
-    }
-
-
     // sobreescribir para agregar funcionalidad
     // ej. creación de entidades hijas
     // las funciones pre_() ocurren antes de persistir la entidad
@@ -142,4 +123,18 @@ public abstract class BaseService<
 
     protected void preDelete(E entity) {}
     protected void postDelete(E entity) {}
+
+
+    // sobreescribir si los mapeos son más complejos
+
+    protected E toEntity(CreateDto dto) {
+        return mapper.toEntity(dto);
+    }
+    protected void updateEntity(UpdateDto dto, E entity) {
+        mapper.updateEntity(dto, entity);
+    }
+    protected DetailDto toDetailDto(E entity) { return mapper.toDto(entity); }
+    protected SummaryDto toSummaryDto(E entity) {
+        return mapper.toSummaryDto(entity);
+    }
 }

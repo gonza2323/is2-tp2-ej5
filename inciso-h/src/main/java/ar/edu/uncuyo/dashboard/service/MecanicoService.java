@@ -5,9 +5,12 @@ import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoCreateDto;
 import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoDetailDto;
 import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoSummaryDto;
 import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoUpdateDto;
+import ar.edu.uncuyo.dashboard.dto.usuario.UsuarioCreateDto;
+import ar.edu.uncuyo.dashboard.dto.usuario.UsuarioUpdateDto;
 import ar.edu.uncuyo.dashboard.entity.BaseEntity;
 import ar.edu.uncuyo.dashboard.entity.Mecanico;
 import ar.edu.uncuyo.dashboard.entity.Usuario;
+import ar.edu.uncuyo.dashboard.error.BusinessException;
 import ar.edu.uncuyo.dashboard.mapper.BaseMapper;
 import ar.edu.uncuyo.dashboard.mapper.MecanicoMapper;
 import ar.edu.uncuyo.dashboard.repository.BaseRepository;
@@ -51,5 +54,21 @@ public class MecanicoService extends BaseService<
     @Override
     public void preDelete(Mecanico mecanico) {
         usuarioService.delete(mecanico.getUsuario());
+    }
+
+    @Override
+    public void validateCreate(MecanicoCreateDto dto) {
+        if (repository.existsByLegajoAndEliminadoFalse(dto.getLegajo())) {
+            throw new BusinessException("Ya existe un mecánico con ese legajo");
+        }
+    }
+
+    @Override
+    public void validateUpdate(MecanicoUpdateDto dto) {
+        if (repository.existsByLegajoAndIdNotAndEliminadoFalse(
+                dto.getLegajo(),
+                dto.getId())) {
+            throw new BusinessException("Ya existe un mecánico con ese legajo");
+        }
     }
 }
