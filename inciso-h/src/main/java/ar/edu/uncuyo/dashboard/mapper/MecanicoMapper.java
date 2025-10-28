@@ -1,7 +1,9 @@
 package ar.edu.uncuyo.dashboard.mapper;
 
-import ar.edu.uncuyo.dashboard.dto.MecanicoCreateFormDto;
-import ar.edu.uncuyo.dashboard.dto.MecanicoDto;
+import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoCreateDto;
+import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoDetailDto;
+import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoSummaryDto;
+import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoUpdateDto;
 import ar.edu.uncuyo.dashboard.entity.Mecanico;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,18 +11,22 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-//@Mapper(componentModel = "spring", uses = {DireccionMapper.class})
 @Mapper(componentModel = "spring")
-public interface MecanicoMapper {
+public interface MecanicoMapper extends BaseMapper<Mecanico, MecanicoDetailDto, MecanicoSummaryDto, MecanicoCreateDto, MecanicoUpdateDto> {
+
+    @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "eliminado", ignore = true)
+    Mecanico toEntity(MecanicoCreateDto dto);
+
     @Mapping(target = "usuario", ignore = true)
-    Mecanico toEntity(MecanicoCreateFormDto dto);
-
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "eliminado", ignore = true)
-    void updateEntityFromDto(MecanicoDto dto, @MappingTarget Mecanico mecanico);
+    void updateEntity(MecanicoUpdateDto dto, @MappingTarget Mecanico mecanico);
 
-    MecanicoDto toDto(Mecanico mecanico);
+    MecanicoDetailDto toDto(Mecanico mecanico);
 
-    List<MecanicoDto> toDtos(List<Mecanico> proveedores);
+    MecanicoSummaryDto toSummaryDto(Mecanico mecanico);
+
+    List<MecanicoSummaryDto> toSummaryDtos(List<Mecanico> proveedores);
 }

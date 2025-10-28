@@ -34,7 +34,7 @@ public abstract class BaseService<
     @Transactional(readOnly = true)
     public E find(ID id) {
         return repository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new BusinessException(entityName + " not found"));
+                .orElseThrow(() -> new BusinessException("Resource (" + entityName + ") not found"));
     }
 
     @Transactional(readOnly = true)
@@ -63,8 +63,16 @@ public abstract class BaseService<
 
     @Transactional
     public E update(UpdateDto dto) {
-        validateUpdate(dto);
         E entity = find(dto.getId());
+        return update(dto, entity);
+    }
+
+    @Transactional
+    public E update(UpdateDto dto, E entity) {
+        if (!dto.getId().equals(entity.getId()))
+            throw new BusinessException("Update DTO's ID does not match entity ID for type (" + entityName + ")");
+
+        validateUpdate(dto);
         preUpdate(dto, entity);
         updateEntity(dto, entity);
         repository.save(entity);
@@ -75,6 +83,11 @@ public abstract class BaseService<
     @Transactional
     public void delete(ID id) {
         E entity = find(id);
+        delete(entity);
+    }
+
+    @Transactional
+    public void delete(E entity) {
         preDelete(entity);
         entity.setEliminado(true);
         repository.save(entity);

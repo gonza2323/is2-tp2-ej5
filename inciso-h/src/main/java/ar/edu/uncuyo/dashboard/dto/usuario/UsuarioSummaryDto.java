@@ -1,0 +1,17 @@
+package ar.edu.uncuyo.dashboard.dto.usuario;
+
+import ar.edu.uncuyo.dashboard.dto.IdentifiableDto;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UsuarioSummaryDto extends IdentifiableDto<Long> {
+    private String email;
+}

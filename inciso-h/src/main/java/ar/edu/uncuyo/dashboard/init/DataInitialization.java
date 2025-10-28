@@ -1,7 +1,7 @@
 package ar.edu.uncuyo.dashboard.init;
 
-import ar.edu.uncuyo.dashboard.dto.MecanicoCreateFormDto;
-import ar.edu.uncuyo.dashboard.dto.UsuarioCreateDto;
+import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoCreateDto;
+import ar.edu.uncuyo.dashboard.dto.usuario.UsuarioCreateDto;
 import ar.edu.uncuyo.dashboard.repository.*;
 import ar.edu.uncuyo.dashboard.service.MecanicoService;
 import ar.edu.uncuyo.dashboard.service.UsuarioService;
@@ -51,7 +51,7 @@ public class DataInitialization implements CommandLineRunner {
 
     @Transactional
     protected void crearMecanicos() {
-        mecanicoService.create(MecanicoCreateFormDto.builder()
+        mecanicoService.create(MecanicoCreateDto.builder()
                 .legajo("123456")
                 .nombre("Javier")
                 .apellido("Perez")

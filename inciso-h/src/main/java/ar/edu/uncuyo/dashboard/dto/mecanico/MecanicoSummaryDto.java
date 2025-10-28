@@ -1,5 +1,7 @@
-package ar.edu.uncuyo.dashboard.dto;
+package ar.edu.uncuyo.dashboard.dto.mecanico;
 
+import ar.edu.uncuyo.dashboard.dto.IdentifiableDto;
+import ar.edu.uncuyo.dashboard.dto.usuario.UsuarioUpdateDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MecanicoCreateFormDto {
+public class MecanicoSummaryDto extends IdentifiableDto<Long> {
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(max = 50, message = "Máximo 50 caracteres")
     private String nombre;
@@ -26,5 +28,5 @@ public class MecanicoCreateFormDto {
     private String legajo;
 
     @Valid
-    private UsuarioCreateDto usuario;
+    private UsuarioUpdateDto usuario;
 }

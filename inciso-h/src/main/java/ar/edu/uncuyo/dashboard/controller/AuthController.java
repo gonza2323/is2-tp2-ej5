@@ -1,6 +1,6 @@
 package ar.edu.uncuyo.dashboard.controller;
 
-import ar.edu.uncuyo.dashboard.dto.CambiarClaveFormDto;
+import ar.edu.uncuyo.dashboard.dto.auth.CambiarClaveFormDto;
 import ar.edu.uncuyo.dashboard.error.BusinessException;
 import ar.edu.uncuyo.dashboard.service.UsuarioService;
 import jakarta.validation.Valid;

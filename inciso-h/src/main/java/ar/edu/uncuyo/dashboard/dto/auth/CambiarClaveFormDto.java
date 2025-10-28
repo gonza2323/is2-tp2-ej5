@@ -1,27 +1,23 @@
-package ar.edu.uncuyo.dashboard.dto;
+package ar.edu.uncuyo.dashboard.dto.auth;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioCreateDto {
-    @NotBlank(message = "Debe indicar una dirección de correo")
-    @Email(message = "Debe especificar un email válido")
-    private String email;
+public class CambiarClaveFormDto {
+    @NotEmpty(message = "Debe indicar su contraseña actual")
+    private String claveActual;
 
-    @NotEmpty(message = "Debe indicar una contraseña")
+    @NotEmpty(message = "Debe indicar una nueva contraseña")
     @Size(min = 8, max = 255, message = "La contraseña debe tener entre 8 y 255 caracteres")
-    private String clave;
+    private String nuevaClave;
 
     @NotEmpty(message = "Debe confirmar su contraseña")
     private String confirmacionClave;

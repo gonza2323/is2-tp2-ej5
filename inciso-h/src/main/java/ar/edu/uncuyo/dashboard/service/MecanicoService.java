@@ -1,62 +1,55 @@
 package ar.edu.uncuyo.dashboard.service;
 
-import ar.edu.uncuyo.dashboard.dto.MecanicoCreateFormDto;
-import ar.edu.uncuyo.dashboard.dto.MecanicoDto;
+import ar.edu.uncuyo.dashboard.dto.IdentifiableDto;
+import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoCreateDto;
+import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoDetailDto;
+import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoSummaryDto;
+import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoUpdateDto;
+import ar.edu.uncuyo.dashboard.entity.BaseEntity;
 import ar.edu.uncuyo.dashboard.entity.Mecanico;
 import ar.edu.uncuyo.dashboard.entity.Usuario;
+import ar.edu.uncuyo.dashboard.mapper.BaseMapper;
 import ar.edu.uncuyo.dashboard.mapper.MecanicoMapper;
+import ar.edu.uncuyo.dashboard.repository.BaseRepository;
 import ar.edu.uncuyo.dashboard.repository.MecanicoRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class MecanicoService {
-    private final MecanicoRepository mecanicoRepository;
-    private final MecanicoMapper mecanicoMapper;
+public class MecanicoService extends BaseService<
+        Mecanico,
+        Long,
+        MecanicoRepository,
+        MecanicoDetailDto,
+        MecanicoSummaryDto,
+        MecanicoCreateDto,
+        MecanicoUpdateDto,
+        MecanicoMapper> {
+
     private final UsuarioService usuarioService;
 
-    @Transactional
-    public Mecanico buscarMecanico(Long id) {
-        return mecanicoRepository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new RuntimeException("Mecanico no encontrado"));
+    public MecanicoService(MecanicoRepository repository, MecanicoMapper mapper, UsuarioService usuarioService) {
+        super("Mecánico", repository, mapper);
+        this.usuarioService = usuarioService;
     }
 
-    @Transactional
-    public MecanicoDto buscarMecanicoDto(Long id) {
-        Mecanico mecanico = buscarMecanico(id);
-        return mecanicoMapper.toDto(mecanico);
-    }
-
-    @Transactional
-    public List<MecanicoDto> listarMecanicosDtos() {
-        List<Mecanico> mecanicos = mecanicoRepository.findAllByEliminadoFalseOrderByApellidoAscNombreAsc();
-        return mecanicoMapper.toDtos(mecanicos);
-    }
-
-    @Transactional
-    public void create(MecanicoCreateFormDto mecanicoDto) {
-        Mecanico mecanico = mecanicoMapper.toEntity(mecanicoDto);
-
-        Usuario usuario = usuarioService.crearUsuario(mecanicoDto.getUsuario());
+    @Override
+    public void preCreate(MecanicoCreateDto dto, Mecanico mecanico) {
+        Usuario usuario = usuarioService.create(dto.getUsuario());
         mecanico.setUsuario(usuario);
-
-        mecanicoRepository.save(mecanico);
     }
 
-    @Transactional
-    public void modificarMecanico(MecanicoDto mecanicoDto) {
-        Mecanico mecanico = buscarMecanico(mecanicoDto.getId());
-        mecanicoMapper.updateEntityFromDto(mecanicoDto, mecanico);
-
-        mecanicoRepository.save(mecanico);
+    @Override
+    public void preUpdate(MecanicoUpdateDto dto, Mecanico mecanico) {
+        usuarioService.update(dto.getUsuario(), mecanico.getUsuario());
     }
 
-    @Transactional
-    public void eliminarMecanico(Long id) {
-        Mecanico mecanico = buscarMecanico(id);
+    @Override
+    public void preDelete(Mecanico mecanico) {
+        usuarioService.delete(mecanico.getUsuario());
     }
 }
