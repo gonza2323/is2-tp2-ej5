@@ -1,10 +1,12 @@
 package ar.edu.uncuyo.dashboard.controller;
 
+import ar.edu.uncuyo.dashboard.auth.CustomUserDetails;
 import ar.edu.uncuyo.dashboard.dto.auth.CambiarClaveFormDto;
 import ar.edu.uncuyo.dashboard.error.BusinessException;
 import ar.edu.uncuyo.dashboard.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,12 +31,15 @@ public class AuthController {
     }
 
     @PostMapping(path = "/cambiar-clave")
-    public String cambiarClave(Model model, @Valid @ModelAttribute("cambiarClaveForm") CambiarClaveFormDto form, BindingResult bindingResult) {
+    public String cambiarClave(Model model,
+                               @AuthenticationPrincipal CustomUserDetails userDetails,
+                               @Valid @ModelAttribute("cambiarClaveForm") CambiarClaveFormDto form,
+                               BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return prepararVistaCambiarClave(model, form);
 
         try {
-//            usuarioService.cambiarClave(form);
+            usuarioService.cambiarClave(userDetails.getId(), form);
             return "redirect:/";
         } catch (BusinessException e) {
             model.addAttribute("msgError", e.getMessage());

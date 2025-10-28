@@ -26,5 +26,6 @@ public interface MecanicoMapper extends BaseMapper<Mecanico, MecanicoDetailDto, 
 
     MecanicoDetailDto toDto(Mecanico mecanico);
 
+    @Mapping(target = "email", source = "usuario.email")
     MecanicoSummaryDto toSummaryDto(Mecanico mecanico);
 }

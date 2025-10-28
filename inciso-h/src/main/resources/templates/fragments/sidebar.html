@@ -28,24 +28,24 @@
         Gestión
     </div>
 
-    <!-- Nav Item - Usuarios Collapse Menu -->
+    <!-- Nav Item - Mecanicos Collapse Menu -->
     <li class="nav-item"
-        th:classappend="${#lists.contains({'usuarios', 'cambiar-clave'}, activePage)} ? ' active'">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseUsuarios"
-           aria-expanded="true" aria-controls="collapseUsuarios">
+        th:classappend="${#lists.contains({'mecanicos'}, activePage)} ? ' active'">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMecanicos"
+           aria-expanded="true" aria-controls="collapseMecanicos">
             <i class="fas fa-fw fa-user fa-fw"></i>
-            <span>Usuarios</span>
+            <span>Mecánicos</span>
         </a>
-        <div id="collapseUsuarios" class="collapse"
-             th:classappend="${#lists.contains({'usuarios', 'cambiar-clave'}, activePage)} ? ' show'"
+        <div id="collapseMecanicos" class="collapse"
+             th:classappend="${#lists.contains({'mecanicos'}, activePage)} ? ' show'"
              aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
-                   th:classappend="${activePage == 'usuarios'} ? ' active'"
-                   href="/usuarios">ABM Usuarios</a>
-                <a class="collapse-item"
-                   th:classappend="${activePage == 'cambiar-clave'} ? ' active'"
-                   href="/cambiar-clave">Cambiar clave</a>
+                   th:classappend="${activePage == 'mecanicos'} ? ' active'"
+                   href="/mecanicos">ABM Mecánicos</a>
+<!--                <a class="collapse-item"-->
+<!--                   th:classappend="${activePage == 'cambiar-clave'} ? ' active'"-->
+<!--                   href="/cambiar-clave">Cambiar clave</a>-->
             </div>
         </div>
     </li>

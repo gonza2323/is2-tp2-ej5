@@ -16,5 +16,7 @@ public class VehiculoSummaryDto extends IdentifiableDto<Long> {
     private String patente;
     private String marca;
     private String modelo;
+
+    private Long clienteId;
     private String clienteDni;
 }

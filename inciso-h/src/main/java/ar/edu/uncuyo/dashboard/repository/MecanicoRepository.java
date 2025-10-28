@@ -13,6 +13,4 @@ public interface MecanicoRepository extends BaseRepository<Mecanico, Long> {
     boolean existsByLegajoAndIdNotAndEliminadoFalse(String legajo, Long id);
 
     Optional<Mecanico> findByUsuarioEmailAndEliminadoFalse(String email);
-
-    List<Mecanico> findAllByEliminadoFalseOrderByApellidoAscNombreAsc();
 }

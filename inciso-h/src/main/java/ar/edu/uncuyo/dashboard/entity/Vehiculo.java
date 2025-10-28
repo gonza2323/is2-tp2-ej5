@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -26,4 +28,7 @@ public class Vehiculo extends BaseEntity<Long> {
     @JoinColumn(nullable = false)
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "vehiculo")
+    private List<HistorialArreglo> arreglos;
 }

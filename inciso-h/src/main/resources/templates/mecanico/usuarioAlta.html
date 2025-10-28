@@ -5,7 +5,7 @@
       layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='usuarios')}">
 
 <head>
-    <title>Detalle Usuario</title>
+    <title>Alta Usuario</title>
 </head>
 
 <body id="page-top">
@@ -16,10 +16,10 @@
     <div th:if="${msgError}" th:text="${msgError}" class="alert alert-danger" role="alert">MENSAJE ERROR</div>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Detalle Usuario</h1>
+    <h1 class="h3 mb-4 text-gray-800">Alta Usuario</h1>
 
     <!-- Formulario -->
-    <ul th:replace="~{usuario/usuarioEditForm :: usuarioEditForm(actionUrl='/usuarios/edit', readOnly=true)}"></ul>
+    <ul th:replace="~{mecanico/usuarioCreateForm :: usuarioCreateForm(actionUrl='/usuarios/alta', readOnly=false)}"></ul>
 
 </div>
 

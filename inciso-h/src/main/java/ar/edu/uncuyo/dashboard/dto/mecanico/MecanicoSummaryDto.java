@@ -14,18 +14,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MecanicoSummaryDto extends IdentifiableDto<Long> {
-    @NotBlank(message = "El nombre no puede estar vacío")
-    @Size(max = 50, message = "Máximo 50 caracteres")
     private String nombre;
-
-    @NotBlank(message = "El apellido no puede estar vacío")
-    @Size(max = 50, message = "Máximo 50 caracteres")
     private String apellido;
-
-    @NotBlank(message = "El legajo no puede estar vacío")
-    @Size(max = 20, message = "Máximo 20 caracteres")
     private String legajo;
-
-    @Valid
-    private UsuarioUpdateDto usuario;
+    private String email;
 }

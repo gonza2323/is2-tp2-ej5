@@ -13,20 +13,24 @@ import org.mapstruct.MappingTarget;
 public interface VehiculoMapper extends BaseMapper<Vehiculo, VehiculoDetailDto, VehiculoSummaryDto, VehiculoCreateDto, VehiculoUpdateDto> {
 
     @Mapping(target = "cliente", ignore = true)
+    @Mapping(target = "arreglos", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "eliminado", ignore = true)
     Vehiculo toEntity(VehiculoCreateDto dto);
 
     @Mapping(target = "cliente", ignore = true)
+    @Mapping(target = "arreglos", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "eliminado", ignore = true)
     void updateEntity(VehiculoUpdateDto dto, @MappingTarget Vehiculo vehiculo);
 
+    @Mapping(target = "clienteId", source = "cliente.id")
     @Mapping(target = "clienteNombre", source = "cliente.nombre")
     @Mapping(target = "clienteApellido", source = "cliente.apellido")
     @Mapping(target = "clienteDni", source = "cliente.dni")
     VehiculoDetailDto toDto(Vehiculo vehiculo);
 
+    @Mapping(target = "clienteId", source = "cliente.id")
     @Mapping(target = "clienteDni", source = "cliente.dni")
     VehiculoSummaryDto toSummaryDto(Vehiculo vehiculo);
 }
