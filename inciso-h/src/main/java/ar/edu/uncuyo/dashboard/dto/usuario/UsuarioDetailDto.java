@@ -3,13 +3,12 @@ package ar.edu.uncuyo.dashboard.dto.usuario;
 import ar.edu.uncuyo.dashboard.dto.IdentifiableDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioDetailDto extends IdentifiableDto<Long> {

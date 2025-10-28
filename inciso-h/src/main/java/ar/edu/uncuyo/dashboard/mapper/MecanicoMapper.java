@@ -27,6 +27,4 @@ public interface MecanicoMapper extends BaseMapper<Mecanico, MecanicoDetailDto, 
     MecanicoDetailDto toDto(Mecanico mecanico);
 
     MecanicoSummaryDto toSummaryDto(Mecanico mecanico);
-
-    List<MecanicoSummaryDto> toSummaryDtos(List<Mecanico> proveedores);
 }

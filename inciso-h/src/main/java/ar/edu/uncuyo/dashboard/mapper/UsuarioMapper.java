@@ -32,6 +32,4 @@ public interface UsuarioMapper extends BaseMapper<Usuario, UsuarioDetailDto, Usu
     UsuarioDetailDto toDto(Usuario usuario);
 
     UsuarioSummaryDto toSummaryDto(Usuario usuario);
-
-    List<UsuarioCreateDto> toDtos(List<Usuario> usuarios);
 }

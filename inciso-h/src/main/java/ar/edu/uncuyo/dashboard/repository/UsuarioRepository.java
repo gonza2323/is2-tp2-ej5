@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioRepository extends BaseRepository<Usuario, Long> {
-    boolean existsByEmailAndEliminadoFalse(String nombreUsuario);
+    boolean existsByEmailAndEliminadoFalse(String email);
     boolean existsByEmailAndIdNotAndEliminadoFalse(String email, Long id);
 
     Optional<Usuario> findByEmailAndEliminadoFalse(String email);

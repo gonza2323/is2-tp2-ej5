@@ -1,4 +1,4 @@
-package ar.edu.uncuyo.dashboard.dto.mecanico;
+package ar.edu.uncuyo.dashboard.dto.cliente;
 
 import ar.edu.uncuyo.dashboard.dto.IdentifiableDto;
 import ar.edu.uncuyo.dashboard.dto.usuario.UsuarioDetailDto;
@@ -10,9 +10,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MecanicoDetailDto extends IdentifiableDto<Long> {
+public class ClienteDetailDto extends IdentifiableDto<Long> {
     private String nombre;
     private String apellido;
-    private String legajo;
-    private UsuarioDetailDto usuario;
+    private String dni;
 }
