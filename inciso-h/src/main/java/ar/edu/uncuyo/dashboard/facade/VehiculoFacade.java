@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ArreglosFacade {
+public class VehiculoFacade {
     private final VehiculoService vehiculoService;
     private final HistorialArregloService historialArregloService;
 

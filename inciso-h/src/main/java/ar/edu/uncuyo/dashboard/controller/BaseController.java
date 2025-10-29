@@ -127,7 +127,7 @@ public abstract class BaseController<
         }
     }
 
-    private String prepareListView(Model model) {
+    protected String prepareListView(Model model) {
         preListView(model);
         Page<SummaryDto> items = service.findDtos(Pageable.unpaged(defaultSort));
         model.addAttribute(resourceNamePlural, items);
@@ -135,7 +135,7 @@ public abstract class BaseController<
         return listView;
     }
 
-    private String prepareDetailView(Model model, ID id) {
+    protected String prepareDetailView(Model model, ID id) {
         preDetailView(model, id);
         DetailDto dto = service.findDto(id);
         model.addAttribute("form", dto);
@@ -143,21 +143,21 @@ public abstract class BaseController<
         return detailView;
     }
 
-    private String prepareCreateFormView(Model model, CreateDto dto) {
+    protected String prepareCreateFormView(Model model, CreateDto dto) {
         preCreateView(model);
         model.addAttribute("form", dto);
         postCreateView(model);
         return createView;
     }
 
-    private String prepareEditFormView(Model model, UpdateDto dto) {
+    protected String prepareEditFormView(Model model, UpdateDto dto) {
         preEditView(model);
         model.addAttribute("form", dto);
         postEditView(model);
         return editView;
     }
 
-    private String prepareEditFormView(Model model, ID id) {
+    protected String prepareEditFormView(Model model, ID id) {
         DetailDto dto = service.findDto(id);
         preEditView(model);
         model.addAttribute("form", dto);

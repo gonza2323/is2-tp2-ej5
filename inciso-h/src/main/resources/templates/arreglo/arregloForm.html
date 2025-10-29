@@ -1,0 +1,56 @@
+<form xmlns:th="http://www.thymeleaf.org"
+      th:fragment="arregloForm(actionUrl, formType)"
+      th:action="@{${actionUrl}}" th:object="${form}" method="post">
+<fieldset th:attr="disabled=${formType == 'detail'}">
+
+    <!-- token anti csrf -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    <input type="hidden" th:if="${formType != 'create'}" th:field="*{id}"/>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="fecha">Fecha *</label>
+            <input type="date" th:field="*{fecha}" class="form-control" id="fecha" placeholder="Fecha">
+            <div th:if="${#fields.hasErrors('fecha')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('fecha')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="detalle">Detalle *</label>
+            <input type="text" th:field="*{detalle}" class="form-control" id="detalle" placeholder="Detalle">
+            <div th:if="${#fields.hasErrors('detalle')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('detalle')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="vehiculo">Patente *</label>
+            <select th:field="*{vehiculoId}" class="form-control" id="vehiculo" th:disabled="${readOnly}">
+                <option value="">Seleccione Patente</option>
+                <option th:each="v : ${vehiculos}" th:value="${v.id}" th:text="${v.patente}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('vehiculoId')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('vehiculoId')}" th:text="${err}"></div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="mecanico">Legajo Mecánico *</label>
+            <select th:field="*{mecanicoId}" class="form-control" id="mecanico" th:disabled="${readOnly}">
+                <option value="">Seleccione Legajo Mecánico</option>
+                <option th:each="m : ${mecanicos}" th:value="${m.id}" th:text="${m.legajo}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('mecanicoId')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('mecanicoId')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+</fieldset>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a th:if="${formType != 'detail'}" th:href="@{/arreglos}" class="btn btn-outline-primary radius mr-3">Cancelar</a>
+        <button th:if="${formType != 'detail'}" type="submit" class="btn btn-primary radius">Aceptar</button>
+
+        <a th:if="${formType == 'detail'}" th:href="@{/arreglos}" class="btn btn-primary radius">Aceptar</a>
+    </div>
+</form>
