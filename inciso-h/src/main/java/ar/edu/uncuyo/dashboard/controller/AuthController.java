@@ -22,7 +22,7 @@ public class AuthController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("loginForm", "");
-        return "/login";
+        return "auth/login";
     }
 
     @GetMapping(path = "/cambiar-clave")
@@ -53,6 +53,6 @@ public class AuthController {
 
     private String prepararVistaCambiarClave(Model model, CambiarClaveFormDto form) {
         model.addAttribute("cambiarClaveForm", form);
-        return "usuario/cambiarClave";
+        return "auth/cambiarClave";
     }
 }

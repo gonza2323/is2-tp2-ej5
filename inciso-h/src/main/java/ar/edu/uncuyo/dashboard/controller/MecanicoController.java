@@ -29,8 +29,8 @@ public class MecanicoController {
     private final String redirectLista = "/mecanicos";
 
     @GetMapping("")
-    public String listarMecanicos(Model model, Pageable pageable) {
-        return prepararVistaLista(model, pageable);
+    public String listarMecanicos(Model model) {
+        return prepararVistaLista(model);
     }
 
     @GetMapping("/{id}")
@@ -94,16 +94,16 @@ public class MecanicoController {
             return "redirect:" + redirectLista;
         } catch (BusinessException e) {
             model.addAttribute("msgError", e.getMessage());
-            return prepararVistaLista(model, null);
+            return prepararVistaLista(model);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             model.addAttribute("msgError", "Error de sistema");
-            return prepararVistaLista(model, null);
+            return prepararVistaLista(model);
         }
     }
 
-    private String prepararVistaLista(Model model, Pageable pageable) {
-        Page<MecanicoSummaryDto> mecanicos = mecanicoService.findDtos(pageable);
+    private String prepararVistaLista(Model model) {
+        Page<MecanicoSummaryDto> mecanicos = mecanicoService.findDtos(null);
         model.addAttribute("mecanicos", mecanicos);
         return vistaLista;
     }

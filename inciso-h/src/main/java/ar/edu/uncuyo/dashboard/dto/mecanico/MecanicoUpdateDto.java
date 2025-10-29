@@ -27,5 +27,5 @@ public class MecanicoUpdateDto extends IdentifiableDto<Long> {
     private String legajo;
 
     @Valid
-    private UsuarioUpdateDto usuario;
+    private UsuarioUpdateDto usuario = new UsuarioUpdateDto();
 }

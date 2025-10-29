@@ -33,7 +33,7 @@
         th:classappend="${#lists.contains({'mecanicos'}, activePage)} ? ' active'">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMecanicos"
            aria-expanded="true" aria-controls="collapseMecanicos">
-            <i class="fas fa-fw fa-user fa-fw"></i>
+            <i class="fas fa-fw fa-wrench"></i>
             <span>Mecánicos</span>
         </a>
         <div id="collapseMecanicos" class="collapse"
@@ -43,75 +43,63 @@
                 <a class="collapse-item"
                    th:classappend="${activePage == 'mecanicos'} ? ' active'"
                    href="/mecanicos">ABM Mecánicos</a>
-<!--                <a class="collapse-item"-->
-<!--                   th:classappend="${activePage == 'cambiar-clave'} ? ' active'"-->
-<!--                   href="/cambiar-clave">Cambiar clave</a>-->
             </div>
         </div>
     </li>
 
-    <!-- Nav Item - Dirección Collapse Menu -->
+    <!-- Nav Item - Clientes Collapse Menu -->
     <li class="nav-item"
-        th:classappend="${#lists.contains({'paises', 'provincias', 'departamentos', 'localidades'}, activePage)} ? ' active'">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseDireccion"
-           aria-expanded="true" aria-controls="collapseDireccion">
-            <i class="fas fa-fw fa-map-marker-alt fa-fw"></i>
-            <span>Dirección</span>
+        th:classappend="${#lists.contains({'clientes'}, activePage)} ? ' active'">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseClientes"
+           aria-expanded="true" aria-controls="collapseClientes">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Clientes</span>
         </a>
-        <div id="collapseDireccion" class="collapse"
-             th:classappend="${#lists.contains({'paises', 'provincias', 'departamentos', 'localidades'}, activePage)} ? ' show'"
-             aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseClientes" class="collapse"
+             th:classappend="${#lists.contains({'clientes'}, activePage)} ? ' show'"
+             aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
-                   th:classappend="${activePage == 'paises'} ? ' active'"
-                   href="/paises">ABM País</a>
-                <a class="collapse-item"
-                   th:classappend="${activePage == 'provincias'} ? ' active'"
-                   href="/provincias">ABM Provincia</a>
-                <a class="collapse-item"
-                   th:classappend="${activePage == 'departamentos'} ? ' active'"
-                   href="/departamentos">ABM Departamento</a>
-                <a class="collapse-item"
-                   th:classappend="${activePage == 'localidades'} ? ' active'"
-                   href="/localidades">ABM Localidad</a>
+                   th:classappend="${activePage == 'clientes'} ? ' active'"
+                   href="/clientes">ABM Clientes</a>
             </div>
         </div>
     </li>
 
-    <!-- Nav Item - Empresas Collapse Menu -->
+    <!-- Nav Item - Vehículos Collapse Menu -->
     <li class="nav-item"
-        th:classappend="${#lists.contains({'empresas'}, activePage)} ? ' active'">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseEmpresa"
-           aria-expanded="true" aria-controls="collapseEmpresa">
-            <i class="fas fa-fw fa-building fa-fw"></i>
-            <span>Empresa</span>
+        th:classappend="${#lists.contains({'vehiculos'}, activePage)} ? ' active'">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseVehiculos"
+           aria-expanded="true" aria-controls="collapseVehiculos">
+            <i class="fas fa-fw fa-car"></i>
+            <span>Vehículos</span>
         </a>
-        <div id="collapseEmpresa" class="collapse"
-             th:classappend="${#lists.contains({'empresas'}, activePage)} ? ' show'"
-             aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseVehiculos" class="collapse"
+             th:classappend="${#lists.contains({'vehiculos'}, activePage)} ? ' show'"
+             aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
-                   th:classappend="${activePage == 'empresas'} ? ' active'"
-                   href="/empresas">ABM Empresa</a>
+                   th:classappend="${activePage == 'vehiculos'} ? ' active'"
+                   href="/vehiculos">ABM Vehículos</a>
             </div>
         </div>
     </li>
 
-    <!-- Nav Item - Proveedor Collapse Menu -->
+    <!-- Nav Item - Arreglos Collapse Menu -->
     <li class="nav-item"
-        th:classappend="${#lists.contains({'proveedores'}, activePage)} ? ' active'">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseProveedor"
-           aria-expanded="true" aria-controls="collapseProveedor">
-            <i class="fas fa-fw fa-truck fa-fw"></i>
-            <span>Proveedor</span>
+        th:classappend="${#lists.contains({'arreglos'}, activePage)} ? ' active'">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseArreglos"
+           aria-expanded="true" aria-controls="collapseArreglos">
+            <i class="fas fa-fw fa-tools"></i>
+            <span>Arreglos</span>
         </a>
-        <div id="collapseProveedor" class="collapse"
-             th:classappend="${#lists.contains({'proveedores'}, activePage)} ? ' show'"
-             aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseArreglos" class="collapse"
+             th:classappend="${#lists.contains({'arreglos'}, activePage)} ? ' show'"
+             aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item"
-                   th:classappend="${activePage == 'proveedores'} ? ' active'"
-                   href="/proveedores">ABM Proveedor</a>
+                   th:classappend="${activePage == 'arreglos'} ? ' active'"
+                   href="/arreglos">ABM Arreglos</a>
             </div>
         </div>
     </li>

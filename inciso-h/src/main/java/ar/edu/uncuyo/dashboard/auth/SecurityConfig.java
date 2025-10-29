@@ -31,7 +31,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/img/**", "/js/**", "/vendor/**").permitAll()
                         .requestMatchers("/login", "/error", "/public/**").permitAll()
@@ -52,8 +51,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                )
-                .cors(cors -> cors.disable());
+                );
 
         if (devAutoLoginFilter != null) {
             http.addFilterBefore(devAutoLoginFilter, UsernamePasswordAuthenticationFilter.class);

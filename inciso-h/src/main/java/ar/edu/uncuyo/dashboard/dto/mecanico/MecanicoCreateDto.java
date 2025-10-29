@@ -25,5 +25,5 @@ public class MecanicoCreateDto {
     private String legajo;
 
     @Valid
-    private UsuarioCreateDto usuario;
+    private UsuarioCreateDto usuario = new UsuarioCreateDto();
 }

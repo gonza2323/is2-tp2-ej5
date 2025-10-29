@@ -46,6 +46,7 @@
                     </a>
                     <form th:action="@{/mecanicos/{id}/baja(id=${mecanico.id})}" method="post" style="display:inline"
                           th:onsubmit="'return confirm(\'¿Está seguro de que desea borrar este mecanico?\')'">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <button type="submit" class="btn btn-danger btn-sm">
                             <i class="fas fa-trash fa-fw"></i>
                         </button>

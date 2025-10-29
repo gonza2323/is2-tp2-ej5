@@ -48,6 +48,7 @@ public class MecanicoService extends BaseService<
 
     @Override
     public void preUpdate(MecanicoUpdateDto dto, Mecanico mecanico) {
+        dto.getUsuario().setId(mecanico.getUsuario().getId());
         usuarioService.update(dto.getUsuario(), mecanico.getUsuario());
     }
 

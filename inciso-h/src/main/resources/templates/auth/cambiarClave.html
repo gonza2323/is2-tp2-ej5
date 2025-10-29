@@ -19,6 +19,8 @@
     <h1 class="h3 mb-4 text-gray-800">Cambiar clave</h1>
 
     <form th:action="@{/cambiar-clave}" th:object="${cambiarClaveForm}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
         <div class="form-row">
             <div class="form-group col-lg-6 col-md-8">
                 <label for="claveActual">Contraseña actual *</label>

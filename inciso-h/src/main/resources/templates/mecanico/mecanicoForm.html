@@ -1,0 +1,65 @@
+<form xmlns:th="http://www.thymeleaf.org"
+      th:fragment="mecanicoForm(actionUrl, formType)"
+      th:action="@{${actionUrl}}" th:object="${mecanico}" method="post">
+<fieldset th:attr="disabled=${formType == 'detail'}">
+
+    <!-- token anti csrf -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    <input type="hidden" th:if="${formType != 'create'}" th:field="*{id}"/>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="nombre">Nombre *</label>
+            <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Nombre">
+            <div th:if="${#fields.hasErrors('nombre')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('nombre')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="apellido">Apellido *</label>
+            <input type="text" th:field="*{apellido}" class="form-control" id="apellido" placeholder="Apellido">
+            <div th:if="${#fields.hasErrors('apellido')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('apellido')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="usuario.email">Correo electrónico *</label>
+            <input type="email" th:field="*{usuario.email}" class="form-control" id="usuario.email" placeholder="Correo electrónico">
+            <div th:if="${#fields.hasErrors('usuario.email')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('usuario.email')}" th:text="${err}"></div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="legajo">Legajo</label>
+            <input type="text" th:field="*{legajo}" class="form-control" id="legajo" placeholder="Teléfono">
+            <div th:if="${#fields.hasErrors('legajo')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('legajo')}" th:text="${err}"></div>
+        </div>
+    </div>
+
+    <div class="form-row" th:if="${formType == 'create'}">
+        <div class="form-group col-md-6">
+            <label for="usuario.clave">Contraseña *</label>
+            <input type="password" th:field="*{usuario.clave}" class="form-control" id="usuario.clave" placeholder="Contraseña">
+            <div th:if="${#fields.hasErrors('usuario.clave')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('usuario.clave')}" th:text="${err}"></div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="usuario.confirmacionClave">Confirmación contraseña *</label>
+            <input type="password" th:field="*{usuario.confirmacionClave}" class="form-control" id="usuario.confirmacionClave" placeholder="Confirmación contraseña">
+            <div th:if="${#fields.hasErrors('usuario.confirmacionClave')}" class="text-danger mt-1"
+                 th:each="err : ${#fields.errors('usuario.confirmacionClave')}" th:text="${err}"></div>
+        </div>
+    </div>
+</fieldset>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a th:if="${formType != 'detail'}" th:href="@{/mecanicos}" class="btn btn-outline-primary radius mr-3">Cancelar</a>
+        <button th:if="${formType != 'detail'}" type="submit" class="btn btn-primary radius">Aceptar</button>
+
+        <a th:if="${formType == 'detail'}" th:href="@{/mecanicos}" class="btn btn-primary radius">Aceptar</a>
+    </div>
+</form>
