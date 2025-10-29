@@ -5,6 +5,7 @@ import ar.edu.uncuyo.dashboard.entity.BaseEntity;
 import ar.edu.uncuyo.dashboard.error.BusinessException;
 import ar.edu.uncuyo.dashboard.mapper.BaseMapper;
 import ar.edu.uncuyo.dashboard.repository.BaseRepository;
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +22,12 @@ public abstract class BaseService<
         UpdateDto extends IdentifiableDto<ID>,
         M extends BaseMapper<E, DetailDto, SummaryDto, CreateDto, UpdateDto>> {
 
-    private final String entityName;
+    private final String resourceName;
     protected final R repository;
     protected final M mapper;
 
-    protected BaseService(String entityName, R repository, M mapper) {
-        this.entityName = entityName;
+    protected BaseService(String resourceName, R repository, M mapper) {
+        this.resourceName = resourceName;
         this.repository = repository;
         this.mapper = mapper;
     }
@@ -34,7 +35,7 @@ public abstract class BaseService<
     @Transactional(readOnly = true)
     public E find(ID id) {
         return repository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new BusinessException("Resource (" + entityName + ") not found"));
+                .orElseThrow(() -> new BusinessException("Resource (" + resourceName + ") not found"));
     }
 
     @Transactional(readOnly = true)
@@ -70,7 +71,7 @@ public abstract class BaseService<
     @Transactional
     public E update(UpdateDto dto, E entity) {
         if (!dto.getId().equals(entity.getId()))
-            throw new BusinessException("Update DTO's ID does not match entity ID for type (" + entityName + ")");
+            throw new BusinessException("Update DTO's ID does not match entity ID for type (" + resourceName + ")");
 
         validateUpdate(dto);
         preUpdate(dto, entity);

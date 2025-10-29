@@ -1,6 +1,6 @@
 <form xmlns:th="http://www.thymeleaf.org"
       th:fragment="mecanicoForm(actionUrl, formType)"
-      th:action="@{${actionUrl}}" th:object="${form}" method="post">
+      th:action="@{${actionUrl}}" th:object="${mecanico}" method="post">
 <fieldset th:attr="disabled=${formType == 'detail'}">
 
     <!-- token anti csrf -->
