@@ -2,10 +2,10 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='mecanicos')}">
+      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='clientes')}">
 
 <head>
-    <title>Detalle Mecánico</title>
+    <title>Detalle Cliente</title>
 </head>
 
 <body id="page-top">
@@ -16,10 +16,10 @@
     <div th:if="${msgError}" th:text="${msgError}" class="alert alert-danger" role="alert">MENSAJE ERROR</div>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Detalle Mecánico</h1>
+    <h1 class="h3 mb-4 text-gray-800">Detalle Cliente</h1>
 
     <!-- Formulario -->
-    <ul th:replace="~{mecanico/mecanicoForm :: mecanicoForm(actionUrl='', formType='detail')}"></ul>
+    <ul th:replace="~{cliente/clienteForm :: clienteForm(actionUrl='', formType='detail')}"></ul>
 
 </div>
 

@@ -27,7 +27,6 @@
                 <th>DNI</th>
                 <th>Apellido</th>
                 <th>Nombre</th>
-                <th>Email</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -36,7 +35,6 @@
                 <td th:text="${cliente.dni}">DNI</td>
                 <td th:text="${cliente.apellido}">Apellido</td>
                 <td th:text="${cliente.nombre}">Nombre</td>
-                <td th:text="${cliente.email}">Email</td>
                 <td>
                     <a th:href="@{/clientes/{id}(id=${cliente.id})}" class="btn btn-primary btn-sm me-1" title="Ver">
                         <i class="fas fa-eye fa-fw"></i>
