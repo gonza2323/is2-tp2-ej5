@@ -5,6 +5,8 @@ import ar.edu.uncuyo.dashboard.error.BusinessException;
 import ar.edu.uncuyo.dashboard.service.BaseService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +29,9 @@ public abstract class BaseController<
     protected final String createView;
     protected final String editView;
     protected final String listUrl;
+    protected final Sort defaultSort;
 
-    protected BaseController(S service, String resourceName, String resourceNamePlural) {
+    protected BaseController(S service, String resourceName, String resourceNamePlural, Sort sort) {
         this.service = service;
 
         this.resourceName = resourceName.toLowerCase();
@@ -39,6 +42,12 @@ public abstract class BaseController<
         this.createView = resourceName + "/" + resourceName + "Alta";
         this.editView = resourceName + "/" + resourceName + "Edit";
         this.listUrl = "/" + resourceNamePlural;
+
+        this.defaultSort = (sort != null) ? sort : Sort.by("id");
+    }
+
+    protected BaseController(S service, String resourceName, String resourceNamePlural) {
+        this(service, resourceName, resourceNamePlural, null);
     }
 
     @GetMapping("")
@@ -120,7 +129,7 @@ public abstract class BaseController<
 
     private String prepareListView(Model model) {
         preListView(model);
-        Page<SummaryDto> items = service.findDtos(null);
+        Page<SummaryDto> items = service.findDtos(Pageable.unpaged(defaultSort));
         model.addAttribute(resourceNamePlural, items);
         postListView(model, items);
         return listView;

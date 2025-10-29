@@ -5,8 +5,11 @@ import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoDetailDto;
 import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoSummaryDto;
 import ar.edu.uncuyo.dashboard.dto.mecanico.MecanicoUpdateDto;
 import ar.edu.uncuyo.dashboard.service.MecanicoService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.swing.*;
 
 
 @Controller
@@ -20,6 +23,6 @@ public class MecanicoController extends BaseController<
         MecanicoService> {
 
     public MecanicoController(MecanicoService service) {
-        super(service, "mecanico", "mecanicos");
+        super(service, "mecanico", "mecanicos", Sort.by("legajo"));
     }
 }

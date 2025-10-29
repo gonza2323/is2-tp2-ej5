@@ -5,6 +5,7 @@ import ar.edu.uncuyo.dashboard.dto.cliente.ClienteDetailDto;
 import ar.edu.uncuyo.dashboard.dto.cliente.ClienteSummaryDto;
 import ar.edu.uncuyo.dashboard.dto.cliente.ClienteUpdateDto;
 import ar.edu.uncuyo.dashboard.service.ClienteService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,6 +21,6 @@ public class ClienteController extends BaseController<
         ClienteService> {
 
     public ClienteController(ClienteService service) {
-        super(service, "cliente", "clientes");
+        super(service, "cliente", "clientes", Sort.by("dni"));
     }
 }

@@ -2,10 +2,10 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='paises')}">
+      layout:decorate="~{layouts/rootLayout :: rootlayout(activePage='vehiculos')}">
 
 <head>
-    <title>Alta País</title>
+    <title>Editar Vehículo</title>
 </head>
 
 <body id="page-top">
@@ -16,10 +16,10 @@
     <div th:if="${msgError}" th:text="${msgError}" class="alert alert-danger" role="alert">MENSAJE ERROR</div>
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Alta País</h1>
+    <h1 class="h3 mb-4 text-gray-800">Editar Vehículo</h1>
 
     <!-- Formulario -->
-    <ul th:replace="~{pais/paisForm :: paisForm(actionUrl='/paises/alta', readOnly=false)}"></ul>
+    <ul th:replace="~{vehiculo/vehiculoForm :: vehiculoForm(actionUrl='/vehiculos/edit', formType='edit')}"></ul>
 
 </div>
 

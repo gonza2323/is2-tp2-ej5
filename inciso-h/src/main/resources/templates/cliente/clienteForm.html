@@ -26,8 +26,8 @@
 
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="dni">DNI</label>
-            <input type="text" th:field="*{dni}" class="form-control" id="dni" placeholder="Teléfono">
+            <label for="dni">DNI *</label>
+            <input type="text" th:field="*{dni}" class="form-control" id="dni" placeholder="DNI">
             <div th:if="${#fields.hasErrors('dni')}" class="text-danger mt-1"
                  th:each="err : ${#fields.errors('dni')}" th:text="${err}"></div>
         </div>
