@@ -19,6 +19,9 @@
         <a th:href="@{/mecanicos/alta}" class="btn btn-primary radius">Agregar mecánico</a>
     </div>
 
+    <!-- Error message -->
+    <div th:if="${msgError}" th:text="${msgError}" class="alert alert-danger" role="alert">MENSAJE ERROR</div>
+
     <!-- Tabla -->
     <div class="table-responsive">
         <table class="table table-striped table-bordered align-middle" id="dataTable">

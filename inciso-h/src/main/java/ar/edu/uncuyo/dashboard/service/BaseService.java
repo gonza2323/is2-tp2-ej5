@@ -35,7 +35,7 @@ public abstract class BaseService<
     @Transactional(readOnly = true)
     public E find(ID id) {
         return repository.findByIdAndEliminadoFalse(id)
-                .orElseThrow(() -> new BusinessException("Resource (" + resourceName + ") not found"));
+                .orElseThrow(() -> new BusinessException("Resource not found (" + resourceName + ")"));
     }
 
     @Transactional(readOnly = true)
