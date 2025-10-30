@@ -1,0 +1,156 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Biblioteca Central</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <!-- Libros (cualquiera puede ver listado) -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="librosDropdown" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">Libros</a>
+                    <ul class="dropdown-menu" aria-labelledby="librosDropdown">
+                        <li><a class="dropdown-item" th:href="@{/libros}">Ver todos</a></li>
+                        <!-- Sólo ADMIN o BIB -->
+                        <li>
+                            <a class="dropdown-item" th:href="@{/libros/nuevo}" data-role-any="ADMIN,BIB">Agregar nuevo</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Autores -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="autoresDropdown" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">Autores</a>
+                    <ul class="dropdown-menu" aria-labelledby="autoresDropdown">
+                        <li><a class="dropdown-item" th:href="@{/autores}">Ver todos</a></li>
+                        <li><a class="dropdown-item" th:href="@{/autores/nuevo}" data-role-any="ADMIN">Agregar nuevo</a></li>
+                    </ul>
+                </li>
+
+                <!-- Administración: sólo ADMIN -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin}" data-role-any="ADMIN">Administración</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav">
+                <!-- Invitado -->
+                <li class="nav-item guest-only"><a class="nav-link" th:href="@{/login}">Iniciar sesión</a></li>
+                <li class="nav-item guest-only"><a class="nav-link" th:href="@{/registrar}">Crear cuenta</a></li>
+
+                <!-- Autenticado -->
+                <li class="nav-item dropdown auth-only">
+                    <a class="nav-link dropdown-toggle" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">Perfil</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
+                        <li><a class="dropdown-item" th:href="@{/perfil}">Ver perfil</a></li>
+                        <li class="dropdown-divider auth-only"></li>
+                        <li><a class="dropdown-item text-danger" href="#" id="logoutBtn">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const token = localStorage.getItem('token');
+
+            // Helpers
+            const b64 = (s) => s.replace(/-/g, '+').replace(/_/g, '/');
+            const decodePayload = (t) => {
+                try { return JSON.parse(atob(b64(t.split('.')[1] || ''))); } catch { return {}; }
+            };
+            const isExpired = (t) => {
+                try {
+                    const p = decodePayload(t);
+                    if (!p?.exp) return false; // si no viene exp, no bloqueamos
+                    return Date.now() / 1000 >= Number(p.exp);
+                } catch { return true; }
+            };
+
+            const show = (sel, visible) => {
+                document.querySelectorAll(sel).forEach(el => {
+                    el.style.display = visible ? '' : 'none';
+                    // Accesibilidad extra cuando se “esconde”: aria-hidden y tab
+                    if (!visible) { el.setAttribute('aria-hidden', 'true'); el.setAttribute('tabindex', '-1'); }
+                    else { el.removeAttribute('aria-hidden'); el.removeAttribute('tabindex'); }
+                });
+            };
+
+            // Guest vs Auth
+            const validToken = token && !isExpired(token);
+            show('.guest-only', !validToken);
+            show('.auth-only', !!validToken);
+
+            // Roles
+            let roles = [];
+            if (validToken) {
+                const payload = decodePayload(token);
+                // Acepta varios formatos habituales: roles, authorities, role o scope
+                const fromPayload = payload.roles || payload.authorities || payload.role || payload.scope || [];
+                if (Array.isArray(fromPayload)) roles = fromPayload.map(String);
+                else if (typeof fromPayload === 'string') roles = fromPayload.split(/[,\s]+/).map(String);
+                // Normalización: permitir ROLE_ prefijo o no
+                const normalized = new Set();
+                roles.forEach(r => {
+                    const R = String(r).trim();
+                    if (!R) return;
+                    normalized.add(R);
+                    if (R.startsWith('ROLE_')) normalized.add(R.replace(/^ROLE_/, ''));
+                    else normalized.add('ROLE_' + R);
+                });
+                roles = Array.from(normalized);
+            }
+
+            // Autorización por elementos (data-role-any)
+            document.querySelectorAll('[data-role-any]').forEach(el => {
+                const allowed = String(el.getAttribute('data-role-any') || '')
+                    .split(/[,\s]+/)
+                    .filter(Boolean)
+                    .some(req => roles.includes(req) || roles.includes('ROLE_' + req));
+                if (!validToken || !allowed) {
+                    // Oculta completamente y evita click/tecla
+                    el.style.display = 'none';
+                    el.setAttribute('aria-hidden', 'true');
+                    el.setAttribute('tabindex', '-1');
+                    // Extra: si es un link, anulamos href para evitar foco con teclas
+                    if (el.tagName === 'A') el.setAttribute('href', '#');
+                }
+            });
+
+            // Limpieza de dividers vacíos en dropdowns (si todos los items previos se esconden)
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                const visibleItems = Array.from(menu.children).filter(li => {
+                    return li.style.display !== 'none' && !li.classList.contains('dropdown-divider');
+                });
+                if (visibleItems.length === 0) { menu.closest('.nav-item')?.style && (menu.closest('.nav-item').style.display = 'none'); }
+                // Oculta dividers consecutivos o al inicio/fin
+                const items = Array.from(menu.children).filter(li => li.style.display !== 'none');
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].classList.contains('dropdown-divider') &&
+                        (i === 0 || i === items.length - 1 || items[i - 1].classList.contains('dropdown-divider'))) {
+                        items[i].style.display = 'none';
+                    }
+                }
+            });
+
+            // Logout
+            const btn = document.getElementById('logoutBtn');
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('roles');
+                    window.location.href = '/login';
+                });
+            }
+        })();
+    </script>
+</nav>
