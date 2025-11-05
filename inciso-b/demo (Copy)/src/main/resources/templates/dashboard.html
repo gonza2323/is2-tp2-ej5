@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,62 +8,27 @@
 </head>
 <body class="bg-light">
 
+
 <div th:replace="~{fragments/header :: navbar}"></div>
+
 
 <main class="container py-4">
     <h2 class="mb-3">Dashboard</h2>
-    <div id="alert" class="alert d-none" role="alert"></div>
+
+
+    <div class="alert alert-info" role="alert" sec:authorize="isAuthenticated()">
+        Sesión iniciada como <strong sec:authentication="name">usuario</strong>.
+    </div>
+
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Datos protegidos</h5>
-            <pre id="out" class="mb-0"></pre>
+            <h5 class="card-title">Área protegida</h5>
+            <p class="mb-0">Contenido visible sólo para usuarios autenticados.</p>
         </div>
     </div>
 </main>
 
-<script>
-    const token = localStorage.getItem('token');
-    const out   = document.getElementById('out');
-    const alertBox = document.getElementById('alert');
-
-    function flash(text, ok) {
-        alertBox.textContent = text;
-        alertBox.classList.remove('d-none','alert-success','alert-danger');
-        alertBox.classList.add(ok ? 'alert-success' : 'alert-danger');
-    }
-
-    if (!token) {
-        // no hay sesión
-        window.location.href = '/login';
-    } else {
-        // ejemplo: API protegida
-        fetch('/api/summary', {
-            headers: { 'Authorization': 'Bearer ' + token }
-        })
-            .then(async res => {
-                const body = await res.text();
-                if (!res.ok) {
-                    flash('No autorizado o token inválido.', false);
-                    if (res.status === 401 || res.status === 403) {
-                        // token inválido/expirado → limpiar y volver al login
-                        localStorage.removeItem('token');
-                        setTimeout(() => window.location.href = '/login', 800);
-                    }
-                    throw new Error(body);
-                }
-                out.textContent = body || '(sin datos)';
-                flash('Datos cargados correctamente.', true);
-            })
-            .catch(err => console.error(err));
-    }
-
-    // logout de respaldo si no usás el del header
-    function logout() {
-        localStorage.removeItem('token');
-        window.location.href = '/login';
-    }
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

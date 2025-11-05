@@ -1,34 +1,26 @@
 package com.OPA.demo.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 @Entity
 @Table(name = "libros")
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Libro {
 
     @Id
-    @Column(name = "isbn")
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+
+    @Column(name = "isbn", unique = true)
     private Long isbn;
 
     @Column(name = "titulo")
@@ -40,21 +32,26 @@ public class Libro {
     @Column(name = "ejemplares")
     private int ejemplares;
 
-    @Column(name = "ejemplares_prestados")
+    @Column(name = "ejemplaresPrestados")
     private int ejemplaresPrestados;
 
-    @Column(name = "ejemplares_restantes")
+    @Column(name = "ejemplaresRestantes")
     private int ejemplaresRestantes;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "imagen_id", foreignKey = @ForeignKey(name = "FK_LIBROS_IMAGEN"))
+    private Imagen imagen;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "editorial_id", nullable = false, foreignKey = @ForeignKey(name = "FK_LIBROS_EDITORIAL"))
+    private Editorial editorial;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "autor_id", nullable = false, foreignKey = @ForeignKey(name = "FK_LIBROS_AUTOR"))
+    private Autor autor;
 
     @Column(name = "alta")
     private boolean alta;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "autor_id")
-    private Autor autor;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "editorial_id")
-    private Editorial editorial;
 
 }

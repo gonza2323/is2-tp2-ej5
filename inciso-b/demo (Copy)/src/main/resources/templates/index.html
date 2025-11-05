@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,43 +8,45 @@
 </head>
 <body class="bg-light">
 
-<!-- Header dinámico -->
 <div th:replace="~{fragments/header :: navbar}"></div>
 
-<!-- Sección principal -->
-<section class="bg-light py-5 text-center">
-    <div class="container">
-        <h1 class="display-5 mb-3">Bienvenido a la Biblioteca</h1>
-        <p class="lead mb-4">Catálogo amplio, recursos digitales y actividades culturales.</p>
-        <div class="d-flex justify-content-center gap-2">
-            <a th:href="@{/login}" class="btn btn-primary btn-lg guest-only">Iniciar sesión</a>
-            <a th:href="@{/registrar}" class="btn btn-outline-secondary btn-lg guest-only">Registrarme</a>
-            <a th:href="@{/dashboard}" class="btn btn-success btn-lg auth-only d-none">Ir al Dashboard</a>
+<!-- Bloque de saludo para usuario autenticado -->
+<section class="bg-white py-5 border-bottom" sec:authorize="isAuthenticated()">
+    <div class="container text-center">
+        <h2 class="mb-3">
+            Hola de nuevo, <span th:text="${session.usuarioSession != null ? session.usuarioSession.nombre : 'Usuario'}">Usuario</span> 👋
+        </h2>
+
+        <!-- Mostrar foto solo si existe -->
+        <div class="d-flex justify-content-center"
+             th:if="${session.usuarioSession != null and session.usuarioSession.imagen != null}">
+            <img
+                    th:src="@{/imagen/perfil/{id}(id=${session.usuarioSession.imagen.id})}"
+                    alt="Foto de perfil"
+                    class="rounded-circle border"
+                    style="width:128px;height:128px;object-fit:cover;"
+            />
         </div>
     </div>
 </section>
 
-<!-- Pie de página -->
+
+<section class="bg-light py-5 text-center">
+    <div class="container">
+        <h1 class="display-5 mb-3">Bienvenido a la Biblioteca</h1>
+        <p class="lead mb-4">Catálogo amplio, recursos digitales y actividades culturales.</p>
+
+        <!-- Botones según autenticación -->
+        <div class="d-flex justify-content-center gap-2">
+            <a class="btn btn-primary btn-lg" th:href="@{/login}" sec:authorize="isAnonymous()">Iniciar sesión</a>
+            <a class="btn btn-outline-secondary btn-lg" th:href="@{/registrar}" sec:authorize="isAnonymous()">Registrarme</a>
+        </div>
+    </div>
+</section>
+
 <footer class="bg-dark text-white text-center py-3 mt-5">
     <p class="mb-0">© 2025 Biblioteca Central</p>
 </footer>
-
-<script>
-    (function(){
-        const token = localStorage.getItem('token');
-        const guestButtons = document.querySelectorAll('.guest-only');
-        const authButtons = document.querySelectorAll('.auth-only');
-
-        if (token) {
-            // Mostrar botón de dashboard y ocultar botones de login/registro
-            guestButtons.forEach(b => b.classList.add('d-none'));
-            authButtons.forEach(b => b.classList.remove('d-none'));
-        } else {
-            guestButtons.forEach(b => b.classList.remove('d-none'));
-            authButtons.forEach(b => b.classList.add('d-none'));
-        }
-    })();
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

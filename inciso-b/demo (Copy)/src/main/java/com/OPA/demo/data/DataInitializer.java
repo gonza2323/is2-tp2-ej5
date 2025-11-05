@@ -1,32 +1,33 @@
 package com.OPA.demo.data;
 
 import com.OPA.demo.Enums.ERole;
-import com.OPA.demo.entities.UserEntity;
-import com.OPA.demo.repositories.UserRepository;
+import com.OPA.demo.entities.Usuario;
+import com.OPA.demo.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
 
     @Override
     public void run(String... args) {
-        if (!userRepository.existsByUsername("admin")) {
-            UserEntity adminUser = UserEntity.builder()
-                    .username("admin")
-                    .password(passwordEncoder.encode("admin123"))
+        if (usuarioRepository.buscarPorEmail("admin@example.com") == null) {
+            Usuario adminUser = Usuario.builder()
+                    .dni(11111111L)
+                    .nombre("admin")
                     .email("admin@example.com")
+                    .clave(new BCryptPasswordEncoder().encode("40919162"))
+                    .telefono("1234567890")
                     .rol(ERole.ADMIN)
                     .alta(true)
                     .build();
 
-            userRepository.save(adminUser);
+            usuarioRepository.save(adminUser);
         }
     }
 }
