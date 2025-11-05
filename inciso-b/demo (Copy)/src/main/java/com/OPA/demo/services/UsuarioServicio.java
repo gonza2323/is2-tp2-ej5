@@ -70,15 +70,13 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setTelefono(telefono);
             usuario.setEmail(email);
 
-            // ⬇️ CAMBIO CLAVE MÍNIMO: solo actualizar si el usuario ingresó una nueva
             if (clave != null && !clave.isBlank()) {
                 usuario.setClave(new BCryptPasswordEncoder().encode(clave));
             }
 
-            // Imagen (respetando tu flujo actual)
             String idImagen = (usuario.getImagen() != null) ? usuario.getImagen().getId() : null;
             Imagen imagen = imagenServicio.actualizar(idImagen, archivo);
-            if (imagen != null) { // por si el servicio devuelve null cuando no se sube nada
+            if (imagen != null) {
                 usuario.setImagen(imagen);
             }
 

@@ -37,6 +37,19 @@
                     </ul>
                 </li>
 
+                <!-- Editoriales -->
+                <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle" href="#" id="editorialesDropdown" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">Editoriales</a>
+                    <ul class="dropdown-menu" aria-labelledby="editorialesDropdown">
+                        <li><a class="dropdown-item" th:href="@{/editoriales}">Ver todas</a></li>
+                        <li sec:authorize="hasRole('ADMIN')">
+                            <a class="dropdown-item" th:href="@{/editoriales/nuevo}">Agregar nueva</a>
+                        </li>
+                    </ul>
+                </li>
+
+
                 <!-- Administración -->
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link" th:href="@{/admin/dashboard}">Administración</a>
