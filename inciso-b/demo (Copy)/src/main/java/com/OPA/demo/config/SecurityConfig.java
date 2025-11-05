@@ -1,16 +1,16 @@
 package com.OPA.demo.config;
 
-import com.OPA.demo.config.jwt.JwtAuthenticationFilter;
+import com.OPA.demo.services.UsuarioServicio;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -19,26 +19,35 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final AuthenticationProvider authProvider;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired
+    public UsuarioServicio usuarioServicio;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(usuarioServicio)
+                .passwordEncoder(new BCryptPasswordEncoder());
+    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         return http
-                .csrf(config -> config.disable())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/webjars/**", "/favicon.ico").permitAll()
-                        .requestMatchers("/auth/**", "/api/auth/**", "/login", "/registrar", "/dashboard/**").permitAll()
-                        .requestMatchers("/api/**", "/autores/**", "/libros/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/**").permitAll() // , "/login", "/index"
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(sessionManager ->
-                        sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/logincheck") //no es necesario crear endpoint para esto
+                        .usernameParameter("email")
+                        .passwordParameter("clave")
+                        .defaultSuccessUrl("/inicio",true)
+                        .permitAll())
+                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/").permitAll())
                 .build();
     }
+
 
 
 }

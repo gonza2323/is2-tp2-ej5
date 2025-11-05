@@ -1,43 +1,29 @@
 package com.OPA.demo.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Setter;
 
 @Entity
-@Table(name = "editoriales")
-@Data
-@Builder
+@Table(name = "editorial")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Editorial {
 
     @Id
-    @Column(name = "editorial_id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "alta", nullable = false)
+    @Column(name = "alta")
     private boolean alta;
 
-    @OneToMany(mappedBy = "editorial", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @JsonIgnore
-    private List<Libro> libros = new ArrayList<>();
+
 }
+
